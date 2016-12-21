@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "JIRA Issue Link Visualiser",
+  "version": "0.1",
+  "requirements": {
+	"3D": {
+		"features": ["webgl"]
+	}
+  },
+  "permissions": [ 
+    "tabs"
+  ],
+  "content_scripts": [
+  {
+    "matches": ["https://*/jira/browse/*"],
+    "js": ["jquery-3.1.0.min.js", "vivagraph.js", "issueDetect.js"],
+	"css": ["issueDetect.css"]
+  }
+  ]
+}
