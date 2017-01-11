@@ -14,7 +14,13 @@
   {
     "matches": ["https://*/jira/browse/*"],
     "js": ["jquery-3.1.0.min.js", "vivagraph.js", "issueDetect.js"],
-	"css": ["issueDetect.css"]
+	"css": ["issueDetect.css"],
+	"svg": ["fullscreen-symbol.svg"]
   }
+  ],
+  "web_accessible_resources": [
+       "MaterialIcons-Regular.ttf",
+	   "MaterialIcons-Regular.woff",
+	   "MaterialIcons-Regular.woff2"
   ]
 }

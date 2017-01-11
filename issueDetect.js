@@ -9,6 +9,27 @@ boundingBoxOneColor = 'green';
 boundingBoxTwoArray = ['In Progress'];
 boundingBoxTwoColor = 'orange';
 
+var nodeId = 0;
+var layout = 0;
+
+
+function fullScreen() {
+	if ( $("div#linkVisualiser").hasClass( "modal" ) )
+	{
+		$("div#linkVisualiser").removeClass("modal");
+		$("div#linkGraph").removeClass("modal-content");
+		$("div#linkGraph > svg").attr("height", "");
+		//$("div#linkVisualiser").off("click");
+	}
+	else
+	{
+		//$("div#linkVisualiser").click(function () {fullScreen()});
+		$("div#linkVisualiser").addClass("modal");
+		$("div#linkGraph").addClass("modal-content");	
+		$("div#linkGraph > svg").attr("height", window.innerHeight *.8);
+		
+	}
+}
 
 // Iterates through 
 function disectLinksFromJSON($response) {
@@ -75,7 +96,8 @@ function generateView(issueLinkResults) {
 	$targetId = '#viewissuesidebar';
 	$templateId = '#datesmodule';
 	
-	$templateCode = $($templateId).clone();
+	$templateCode = $($templateId).clone().attr("id", "linkmodule");
+	
 	$("h2", $templateCode).text("Link Visualiser");
 	$("div", $templateCode).prop('id', 'linkVisualiser');
 	$templateCode.find("li").remove();
@@ -83,12 +105,16 @@ function generateView(issueLinkResults) {
 		console.log($("div.linkVisualiser", $templateCode));
 	});*/
 	
-	$("div#linkVisualiser.mod-content", $templateCode).append( "<div id='linkGraph'></div>" );
+	$("div#linkVisualiser.mod-content", $templateCode).append( '<div id="linkGraph"><div id="issueLinkToolbox" class="tool-box" width: 20%"><form class="search-box no-print"><a href="#" class="issueLink-fullscreen" title="Fullscreen"><i class="material-icons">fullscreen</i></a></form></div></div>' );
 	
 	$links = disectLinksFromJSON(issueLinkResults);
 	
 	$mainIssue = [];
 	$mainIssue["id"] = issueLinkResults["key"];
+	
+	if ($links[3] == 0 ) {
+		$templateCode.addClass("collapsed");
+	}
 	
 
 	
@@ -159,6 +185,9 @@ function generateView(issueLinkResults) {
     	var ui = Viva.Graph.svg('g'),
 			// Create SVG text element with issue id as content
 			svgText = Viva.Graph.svg('text').attr('y', '32px').attr('x', '1px').text(node.id);
+			
+
+			
 			if (typeof( node.data ) != 'undefined') {
 
 				svgIssueType = Viva.Graph.svg('image')
@@ -173,10 +202,15 @@ function generateView(issueLinkResults) {
 						 .attr('x', '20px')
 						 .attr('y', '1px')
 						 .link(node.data["fields"]["priority"]["iconUrl"]);		 
-						 
+						
+
+				
 				ui.append(svgIssueType);	
 				ui.append(svgPriority);	
 				
+
+			
+
 			
 				// Change color of bounding box depending on status of issue
 				if ($.inArray(node.data["fields"]["status"]["name"], boundingBoxOneArray) != -1) {
@@ -197,8 +231,12 @@ function generateView(issueLinkResults) {
 								
 
 			}
-			
-			
+			/*
+				$(actualElement).click(function() { // mouse over
+					window.open($issueUrl+"/"+node.id, "_blank");
+				});		
+			*/		
+		
 			var rect = Viva.Graph.svg('rect')
 				.attr('width', groupSize)
 				.attr('height', groupSize)
@@ -207,15 +245,11 @@ function generateView(issueLinkResults) {
 				.attr('rx', '2').attr('ry', '2')
 				.attr("fill", "transparent");
 				
-				
-	
-		ui.append(svgText);
 		ui.append(rect);
+		ui.append(svgText);
+
 		
-		
-		$(ui).click(function() { // mouse over
-			window.open($issueUrl+"/"+node.id, "_blank");
-		});
+
 		
 		return ui;
     })
@@ -233,7 +267,15 @@ function generateView(issueLinkResults) {
 	// Attach Data to Graph
 	$templateCode.appendTo($targetId);
 
-
+	// Set listeners for toolbox
+	$("a.issueLink-fullscreen").click(function () {fullScreen()});
+	
+	// Listener for if user clicks on the outside div in modal view
+	window.onclick = function(event) {
+		if ($("div#linkVisualiser.modal").is(event.target)) {
+			fullScreen();
+		}
+	}
 	  
 	  //Space out graph depending on the number of issues
 	  if  ($links[3] >= 9)
@@ -241,7 +283,7 @@ function generateView(issueLinkResults) {
 		idealLength = idealLength * ( $links[3] * 0.145 );
 	  }
 	  
-	  var layout = Viva.Graph.Layout.forceDirected(graph, {
+	  layout = Viva.Graph.Layout.forceDirected(graph, {
 		  springLength: idealLength,
 		  // springCoeff : 0.0008,
 		  // gravity : -10,
@@ -265,12 +307,16 @@ function generateView(issueLinkResults) {
 	});
 
 	// Select the currently open issue and put it in var 'nodeId'
-	var nodeId = $mainIssue["id"];
+	nodeId = $mainIssue["id"];
 	//adjustView(nodeId, layout);
 
 	
 	renderer.run();	
-	$("svg").prop("style", "border-style: groove;min-height:380px;");
+	$("div#linkGraph > svg").attr("style", "border-style: groove;min-height:380px;");
+
+	// Following 2 lines bring the graph back centre when minimizing from fullscreen
+	$("div#linkGraph ").attr("viewBox", "0 0 300 300");
+	$("div#linkGraph").attr("preserveAspectRatio", "xMinYMin meet");
 	
 	var check = function(){
 		adjustView(nodeId, layout);

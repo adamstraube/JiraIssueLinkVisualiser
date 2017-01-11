@@ -22,3 +22,5 @@ A Chrome extension that will add an issue link visualisation on the right hand p
 * Epic or Epic Link
 * Age of issue?
 * Issue activity (Number of comments?)
+* (done) Fullscreen function
+* (done) Collapse module if no issue links found

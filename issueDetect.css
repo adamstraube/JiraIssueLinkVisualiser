@@ -1,4 +1,105 @@
 svg {
 	width: 100%;
 	height: auto;
+	position: relative;
+	z-index: 1;	
+}
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(chrome-extension://__MSG_@@extension_id__/MaterialIcons-Regular.woff2) format('woff2'),
+       url(chrome-extension://__MSG_@@extension_id__/MaterialIcons-Regular.woff) format('woff'),
+       url(chrome-extension://__MSG_@@extension_id__/MaterialIcons-Regular.ttf) format('truetype');
+}
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 48px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+.material-icons:hover,
+.material-icons:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+.tool-box {
+    box-shadow: 0 2px 4px rgba(0,0,0,.2),0 -1px 0 rgba(0,0,0,.02);
+    background: #ffe;
+    position: absolute;
+    height: 48px;
+	width: 10%;
+	margin-top: 10px;
+    margin-left: 10px;
+	/*
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: stretch;
+    -webkit-justify-content: stretch;
+    -ms-flex-pack: stretch;
+    justify-content: stretch;*/
+	z-index: 2;
+}
+.modal {
+    #display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 99999; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+	margin: 0 !important;
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+/* Modal Content */
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+.close-issueLink {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+	z-index: 2;	
+}
+.close-issueLink:hover,
+.close-issueLink:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
