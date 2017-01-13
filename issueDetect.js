@@ -144,7 +144,7 @@ function generateView(issueLinkResults) {
 	for (var i = $links[2].length; i--; ) {
 		$currentIssue = $links[2][i]["key"];
 		graph.addNode($currentIssue, $links[2][i]);
-		graph.addLink($mainIssue["id"], $currentIssue, { connectionStrength: 0.1 });
+		graph.addLink($mainIssue["id"], $currentIssue, { connectionStrength: 0.1, linkType: "subtask" });
 	}
 	
 
@@ -159,7 +159,12 @@ function generateView(issueLinkResults) {
 	// Description of the links between nodes
 	//
 	graphics.link(function(link) {
-		return Viva.Graph.svg('path')
+		
+		var svgPath = Viva.Graph.svg('path');
+		if (typeof( link.data.linkType ) != 'undefined') {
+			svgPath.attr('stroke-dasharray', '5, 5');
+		}
+		return svgPath
 		  .attr('stroke', 'black')
 		  .attr('marker-end', 'url(#Triangle)');
 		}).placeLink(placeArrow(groupSize ));	

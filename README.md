@@ -17,10 +17,10 @@ A Chrome extension that will add an issue link visualisation on the right hand p
 
 
 ## Todo:
-* Add dependency management system (instead of hardcoding)
-* Sprint
-* Epic or Epic Link
-* Age of issue?
-* Issue activity (Number of comments?)
-* (done) Fullscreen function
-* (done) Collapse module if no issue links found
+- [ ] Add dependency management system (instead of hardcoding)
+- [ ] Sprint
+- [ ] Epic or Epic Link
+- [ ] Age of issue?
+- [ ] Issue activity (Number of comments?)
+- [X] Fullscreen function
+- [X] Collapse module if no issue links found
