@@ -14,10 +14,12 @@ A Chrome extension that will add an issue link visualisation on the right hand p
 ## Built with
 * [Jquery](https://github.com/jquery/jquery)
 * [VivaGraphJS](https://github.com/anvaka/VivaGraphJS/)
+* [Material icons](https://material.io/icons/)
 
 
 ## Todo:
 - [ ] Add dependency management system (instead of hardcoding)
+- [X] Screen centring and zoom on main issue
 - [ ] Sprint
 - [ ] Epic or Epic Link
 - [ ] Age of issue?

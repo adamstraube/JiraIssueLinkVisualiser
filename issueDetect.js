@@ -65,19 +65,36 @@ function disectLinksFromJSON($response) {
 }
 
 // Adjust the view so that the node id passed in is centered on screen
-function adjustView(issueNodeId, layout) {
+function adjustView(issueNodeId, layout, renderer) {
+	// Reset renderer to ensure that the zoom parameters match the viewer dimensions
+	renderer.reset();
+	
 	var graphRect = layout.getGraphRect();
-	var graphSize = Math.min(graphRect.x2 - graphRect.x1, graphRect.y2 - graphRect.y1) ;
+	var graphSize = Math.min(graphRect.x2 - graphRect.x1, graphRect.y2 - graphRect.y1);
+	var graphWidth = graphRect.x2 - graphRect.x1;
+	var graphHeight = graphRect.y2 - graphRect.y1;
 	var screenSize = Math.min(document.getElementById('linkGraph').clientWidth, document.getElementById('linkGraph').clientHeight);
-	var desiredScale = screenSize / graphSize * .8;
-	zoomOut(desiredScale, 1);
+	var screenWidth = document.getElementById('linkGraph').clientWidth;
+	var screenHeight = document.getElementById('linkGraph').clientHeight;
+	var desiredScale = (screenSize / graphSize) * 0.7; // the decimal number was required to shrink the graph to be smaller than the viewframe
+	var desiredScaleWidth = screenWidth / graphWidth;
+	var desiredScaleHeight = screenHeight / graphHeight;
+	
+
+
+	// Get to correct zoom level
+	if ((desiredScaleHeight > 1.1) || (desiredScaleWidth > 1.1))
+	{
+		zoomOut(desiredScale, 1);
+	}
+	if ((desiredScaleHeight < .8) || (desiredScaleWidth < .8))	
+	{
+		zoomIn(desiredScale, 1);
+	}
+
+	// Pan central issue to middle of screen
 	panToIssue(issueNodeId);
 
-	
-	function panToIssue(issueNodeId) {
-		var pos = layout.getNodePosition(issueNodeId);
-		renderer.moveTo(pos.x, pos.y*1.5);
-	};
 	
 	function zoomOut(desiredScale, currentScale) {
 		if (desiredScale < currentScale) {
@@ -87,6 +104,24 @@ function adjustView(issueNodeId, layout) {
 		  }, 16);
 		}
 	}
+	function zoomIn(desiredScale, currentScale) {
+		if (desiredScale < currentScale) {
+		  currentScale = renderer.zoomIn();
+		  setTimeout(function () {
+			  zoomIn(desiredScale, currentScale);
+		  }, 16);
+		}
+	}
+	
+	// Pan central issue to middle of screen function
+	function panToIssue(issueNodeId) {
+		var pos = layout.getNodePosition(issueNodeId);
+			chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+				console.log("posx: "+pos.x);
+				console.log("posy: "+pos.y);
+			});
+		renderer.moveTo(pos.x, pos.y);
+	};
 	
 
 }
@@ -105,7 +140,7 @@ function generateView(issueLinkResults) {
 		console.log($("div.linkVisualiser", $templateCode));
 	});*/
 	
-	$("div#linkVisualiser.mod-content", $templateCode).append( '<div id="linkGraph"><div id="issueLinkToolbox" class="tool-box" width: 20%"><form class="search-box no-print"><a href="#" class="issueLink-fullscreen" title="Fullscreen"><i class="material-icons">fullscreen</i></a></form></div></div>' );
+	$("div#linkVisualiser.mod-content", $templateCode).append( '<div id="linkGraph"><div id="issueLinkToolbox" class="tool-box" ><form class="search-box no-print"><a href="#" class="issueLink-fullscreen" title="Fullscreen"><i class="material-icons">fullscreen</i></a><a href="#" class="issueLink-centre" title="Centre on Main Issue"><i class="material-icons">home</i></a></form></div></div>' );
 	
 	$links = disectLinksFromJSON(issueLinkResults);
 	
@@ -273,7 +308,14 @@ function generateView(issueLinkResults) {
 	$templateCode.appendTo($targetId);
 
 	// Set listeners for toolbox
-	$("a.issueLink-fullscreen").click(function () {fullScreen()});
+	$("a.issueLink-fullscreen").click(function (e) {
+		fullScreen(); 
+		e.preventDefault();
+	});
+	$("a.issueLink-centre").click(function (e) {
+		adjustView(nodeId, layout, renderer); 
+		e.preventDefault();
+	});
 	
 	// Listener for if user clicks on the outside div in modal view
 	window.onclick = function(event) {
@@ -318,17 +360,17 @@ function generateView(issueLinkResults) {
 	
 	renderer.run();	
 	$("div#linkGraph > svg").attr("style", "border-style: groove;min-height:380px;");
-
+		renderer.reset();
 	// Following 2 lines bring the graph back centre when minimizing from fullscreen
-	$("div#linkGraph ").attr("viewBox", "0 0 300 300");
-	$("div#linkGraph").attr("preserveAspectRatio", "xMinYMin meet");
-	
+	//$("div#linkGraph ").attr("viewBox", "0 0 300 300");
+	//$("div#linkGraph").attr("preserveAspectRatio", "xMinYMin meet");	
+
 	var check = function(){
-		adjustView(nodeId, layout);
+		adjustView(nodeId, layout, renderer);
 	}
 
-	setTimeout(check, 200); // check again in a second
 
+	setTimeout(check, 200); // check again in a second
 	//$renderer.reset();	
 }
 
