@@ -59,6 +59,11 @@ function disectLinksFromJSON($response) {
 		$result = $result + 1;
 	});
 	
+	//DEBUG no of issue links
+	chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
+		console.log("Number of issue links: "+$result);
+	}); 
+	// END DEBUG
 
 	return [$issue_array_blocks, $issue_array_is_blocked, $issue_array_subtasks, $result];
 	
@@ -81,13 +86,12 @@ function adjustView(issueNodeId, layout, renderer) {
 	var desiredScaleHeight = screenHeight / graphHeight;
 	
 
-
 	// Get to correct zoom level
-	if ((desiredScaleHeight > 1.1) || (desiredScaleWidth > 1.1))
+	if ((screenSize > desiredScale))
 	{
 		zoomOut(desiredScale, 1);
 	}
-	if ((desiredScaleHeight < .8) || (desiredScaleWidth < .8))	
+	if ((screenSize < desiredScale))
 	{
 		zoomIn(desiredScale, 1);
 	}
@@ -116,10 +120,6 @@ function adjustView(issueNodeId, layout, renderer) {
 	// Pan central issue to middle of screen function
 	function panToIssue(issueNodeId) {
 		var pos = layout.getNodePosition(issueNodeId);
-			chrome.runtime.sendMessage({greeting: "hello"}, function(response) {
-				console.log("posx: "+pos.x);
-				console.log("posy: "+pos.y);
-			});
 		renderer.moveTo(pos.x, pos.y);
 	};
 	
@@ -241,15 +241,22 @@ function generateView(issueLinkResults) {
 						 .attr('height', 16)
 						 .attr('x', '20px')
 						 .attr('y', '1px')
-						 .link(node.data["fields"]["priority"]["iconUrl"]);		 
+						 .link(node.data["fields"]["priority"]["iconUrl"]);		
+				issueExpand = Viva.Graph.svg('text')
+						 .attr('width', 16)
+						 .attr('height', 16)
+						 .attr('class', 'material-icons')
+						 .attr('title', 'Expand this issues related issues')
+						 .attr('style', 'font-size: 24px !important;')
+						 .attr('x', groupSize-24+'px')
+						 .attr('y', groupSize+'px')
+						 .on('click', function() { window.open($issueUrl+"/"+node.id, "_blank"); })
+						 .text('all_out');						 
 						
-
 				
 				ui.append(svgIssueType);	
 				ui.append(svgPriority);	
-				
 
-			
 
 			
 				// Change color of bounding box depending on status of issue
@@ -287,10 +294,10 @@ function generateView(issueLinkResults) {
 				
 		ui.append(rect);
 		ui.append(svgText);
-
-		
-
-		
+		if (typeof( node.data ) != 'undefined')
+		{
+			ui.append(issueExpand);	
+		}
 		return ui;
     })
     .placeNode(function(nodeUI, pos){
@@ -323,6 +330,7 @@ function generateView(issueLinkResults) {
 			fullScreen();
 		}
 	}
+	
 	  
 	  //Space out graph depending on the number of issues
 	  if  ($links[3] >= 9)
