@@ -1,6 +1,6 @@
 # Jira Issue Link Visualiser
 
-!(Issue link visualiser in action)[/images/whole-visualiser-5-links.png]
+![Issue link visualiser in action](images/whole-visualiser-5-links.png)
 
 A Chrome extension that will add an issue link visualisation on the right hand pane when in Atlassian Jira. Requires the REST API to be enabled in JIRA to work!
 
