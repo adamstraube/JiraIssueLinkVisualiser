@@ -11,6 +11,9 @@ A Chrome extension that will add an issue link visualisation on the right hand p
 * In Chrome go to Settings>Extensions and enable "Developer Mode"
 * Click "Load unpacked extension..." and open the directory where you cloned this repository
 
+# How to use
+ Go to https://adamstraube.github.io/a-better-way-of-viewing-links-between-issues-in-jira/ for more information.
+
 ## Built with
 * [Jquery](https://github.com/jquery/jquery)
 * [VivaGraphJS](https://github.com/anvaka/VivaGraphJS/)
@@ -18,7 +21,6 @@ A Chrome extension that will add an issue link visualisation on the right hand p
 
 
 ## Todo:
-- [ ] Add dependency management system (instead of hardcoding)
 - [X] Screen centring and zoom on main issue
 - [ ] Sprint
 - [ ] Epic or Epic Link
