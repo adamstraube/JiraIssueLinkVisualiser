@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "JIRA Issue Link Visualiser",
-  "version": "1.01",
+  "version": "1.0.1",
   "description": "A more visual way of viewing the links between your currently selected issue and other issues in Atlassian JIRA",
   "icons": { "16": "icon16.png",
            "48": "icon48.png",
