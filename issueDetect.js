@@ -236,12 +236,6 @@ function generateView(issueLinkResults) {
 						 .attr('x', '1px')
 						 .attr('y', '1px')
 						 .link(node.data["fields"]["issuetype"]["iconUrl"]);
-				svgPriority = Viva.Graph.svg('image')
-						 .attr('width', 16)
-						 .attr('height', 16)
-						 .attr('x', '20px')
-						 .attr('y', '1px')
-						 .link(node.data["fields"]["priority"]["iconUrl"]);		
 				issueExpand = Viva.Graph.svg('text')
 						 .attr('width', 16)
 						 .attr('height', 16)
@@ -252,10 +246,19 @@ function generateView(issueLinkResults) {
 						 .attr('y', groupSize+'px')
 						 .on('click', function() { window.open($issueUrl+"/"+node.id, "_blank"); })
 						 .text('all_out');						 
-						
+				// Some public instances don't show priority or disable it. Check for this and go around if missing
+				if ( node.data["fields"].hasOwnProperty("priority") ) {
+					svgPriority = Viva.Graph.svg('image')
+						 .attr('width', 16)
+						 .attr('height', 16)
+						 .attr('x', '20px')
+						 .attr('y', '1px')
+						 .link(node.data["fields"]["priority"]["iconUrl"]);	
+					ui.append(svgPriority);	
+				}	
 				
 				ui.append(svgIssueType);	
-				ui.append(svgPriority);	
+				
 
 
 			
@@ -389,7 +392,7 @@ function getIssueLinks(){
 	$restAPI = $url.substring(0, $url.indexOf("/browse")) + "/rest/api/2";
 	
 	$getIssueURL = $restAPI + "/issue/" + $issueId + "?fields=issuelinks,issuetype,subtasks";
-    //alert(restAPI);
+    //alert($restAPI);
 	
 	var linkResults = $.getJSON($getIssueURL, function( $data ) {
 		// Get current issue link issues

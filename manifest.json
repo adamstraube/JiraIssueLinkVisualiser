@@ -13,11 +13,18 @@
 	}
   },
   "permissions": [ 
-    "tabs"
+    "tabs",
+	"storage"
   ],
   "content_scripts": [
   {
-    "matches": ["https://*/jira/browse/*"],
+    "matches": ["https://*/*/browse/*"],
+    "js": ["jquery-3.1.0.min.js", "vivagraph.js", "issueDetect.js"],
+	"css": ["issueDetect.css"],
+	"svg": ["fullscreen-symbol.svg"]
+  },
+  {
+    "matches": ["https://*/browse/*"],
     "js": ["jquery-3.1.0.min.js", "vivagraph.js", "issueDetect.js"],
 	"css": ["issueDetect.css"],
 	"svg": ["fullscreen-symbol.svg"]
