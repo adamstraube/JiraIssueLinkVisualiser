@@ -9,6 +9,10 @@ A Chrome extension that will add an issue link visualisation on the right hand p
 
 # How to install
 
+Easy:
+* Go to the Chrome Extension store and install it [here](https://chrome.google.com/webstore/detail/jira-issue-link-visualise/blhhnohbefoaoibbacoodpdgcmdnbkaa)
+
+Or:
 * Clone this repository to a directory on your computer
 * In Chrome go to Settings>Extensions and enable "Developer Mode"
 * Click "Load unpacked extension..." and open the directory where you cloned this repository

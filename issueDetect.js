@@ -4,7 +4,7 @@
 groupSize = 78;
 idealLength = 135;
 
-boundingBoxOneArray = ['Resolved', 'Closed'];
+boundingBoxOneArray = ['Resolved', 'Closed', 'Done'];
 boundingBoxOneColor = 'green';
 boundingBoxTwoArray = ['In Progress'];
 boundingBoxTwoColor = 'orange';
