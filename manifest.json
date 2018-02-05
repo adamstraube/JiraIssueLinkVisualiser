@@ -7,10 +7,6 @@
              "48": "icon48.png",
              "128": "icon128.png" },
   "author": "Adam Straube",
-//  "options_ui": {
-//    "page": "options.html",
-//    "chrome_style": true,
-//  },
   "requirements": {
 	"3D": {
 		"features": ["webgl"]
