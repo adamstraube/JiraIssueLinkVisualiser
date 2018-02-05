@@ -2,14 +2,15 @@
   "manifest_version": 2,
   "name": "JIRA Issue Link Visualiser",
   "version": "1.0.1",
-  "options_ui": {
-    "page": "options.html",
-	    // Recommended.
-    "chrome_style": true,
-    // Not recommended; only provided for backwards compatibility,
-    // and will be unsupported in a future version of Chrome (TBD).
-    "open_in_tab": true
-  },
+  "description": "A more visual way of viewing the links between your currently selected issue and other issues in Atlassian JIRA",
+  "icons": { "16": "icon16.png",
+             "48": "icon48.png",
+             "128": "icon128.png" },
+  "author": "Adam Straube",
+//  "options_ui": {
+//    "page": "options.html",
+//    "chrome_style": true,
+//  },
   "requirements": {
 	"3D": {
 		"features": ["webgl"]
