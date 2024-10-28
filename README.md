@@ -1,3 +1,5 @@
+PLEASE NOTE: This project is not updated, has not been updated in a while and very likely does not work anymore. 
+
 # Jira Issue Link Visualiser
 
 ![Issue link visualiser in action](images/whole-visualiser-5-links.png)
